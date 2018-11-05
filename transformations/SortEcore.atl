@@ -1,0 +1,16 @@
+-- @atlcompiler emftvm
+-- @nsURI ECORE=http://www.eclipse.org/emf/2002/Ecore
+-- Alphabetically sorts the contents of an Ecore model by name.
+module SortEcore;
+
+create OUT : ECORE refining IN : ECORE;
+
+rule EPackage {
+	from
+		s : ECORE!EPackage
+	to
+		t : ECORE!EPackage (
+			eClassifiers <- s.eClassifiers->sortedBy(e | e.name),
+			eSubpackages <- s.eSubpackages->sortedBy(p | p.name)
+		)
+}
